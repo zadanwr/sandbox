@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(sandbox)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC
@@ -49,6 +51,14 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 find_package(OpenGL REQUIRED)
 set(LIB ${LIB}
 	${OPENGL_LIBRARIES}
+)
+
+find_package(V8 REQUIRED)
+set(LIB ${LIB}
+	${V8_LIBRARIES}
+)
+set(INCLUDE ${INCLUDE}
+	${V8_INCLUDE_DIR}
 )
 
 include_directories(${INCLUDE})
