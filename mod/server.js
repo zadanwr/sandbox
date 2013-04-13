@@ -22,3 +22,5 @@ function Player() {
 	print("Player created");
 }
 
+var serv = new Server();
+registerMod("serv");

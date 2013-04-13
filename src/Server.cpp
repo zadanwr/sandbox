@@ -25,6 +25,21 @@ namespace sandbox
 		print("%s\n", *value);
 		return Undefined();
 	}
+
+	Handle<Value> Binding_registerMod(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+		HandleScope handleScope;
+		Handle<Value> arg = args[0];
+		String::Utf8Value value(arg);
+		
+
+		Server::GetCurrent()->RegisterMod(*value);
+  
+		print("%s\n", *value);
+		return Undefined();
+	}
 	Handle<Value> Binding_exec(const Arguments& args)
 	{
 		if(args.Length() < 1)
@@ -46,15 +61,38 @@ namespace sandbox
 		Handle<ObjectTemplate> global = ObjectTemplate::New();
 		global->Set(String::New("print"), FunctionTemplate::New(Binding_print));
 		global->Set(String::New("exec"), FunctionTemplate::New(Binding_exec));
+		global->Set(String::New("registerMod"), FunctionTemplate::New(Binding_registerMod));
 
 		m_context = Context::New(NULL, global);
 
 		ms_current = this;
 	}
+
+	void Server::RegisterMod(char *ModObject) {
+
+		m_server = Local<Object>::Cast(m_context->Global()->Get(String::New(ModObject)));
+		/*
+
+		How to call onCreate:
+
+		Handle<Function> oCTest = Handle<Function>::Cast(m_server->Get(String::New("onCreate")));
+		v8::Handle<v8::Value> args[] = {};
+  		oCTest->Call(oCTest,0,args);
+  		*/
+	}
+
+
+
 	Server::~Server()
 	{
 		m_context.Dispose();
 	}
+
+	Persistent<Context> Server::GetContext() const {
+
+		return m_context;
+	}
+
 	bool Server::ExecuteFile(const char *file)
 	{
 		Context::Scope contextScope(m_context);
