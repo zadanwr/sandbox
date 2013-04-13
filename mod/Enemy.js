@@ -5,6 +5,9 @@ function Enemy(x,y,w,h) {
 	this.cc = 0;
 	this.health = 100;
 	this.velocity = 15;
+	this.pVelocity = 200;
+	this.damage = -15;
+	this.delay = 20
 	this.entity = new entity(x,y,w,h);
 	this.entity.onCollide = function(who) {
 	}
@@ -15,12 +18,12 @@ function Enemy(x,y,w,h) {
 		if(this.health <= 0) return;
 		if(event == EVENT.STEP) {
 			this.cc++;
-			if(this.cc == 20) {
+			if(this.cc == this.delay) {
 				this.cc = 0;
 				var vect = new Vector2(Entities[0].entity.getPosition()[0]-this.entity.getPosition()[0],Entities[0].entity.getPosition()[1]-this.entity.getPosition()[1]);
-				if(Math.sqrt(vect.f*vect.f+vect.l*vect.l) < 500){
+				if(Math.sqrt(vect.f*vect.f+vect.l*vect.l) < 800){
 					vect.normalize();
-					new Projectile(this.entity.getPosition()[0]+ (this.w+10)*vect.f + 11,this.entity.getPosition()[1]+ (this.h+10)*vect.l+11,50,new velocity(vect.f*200,vect.l*200));
+					new Projectile(this.entity.getPosition()[0]+ (this.w+10)*vect.f + 11,this.entity.getPosition()[1]+ (this.h+10)*vect.l+11,this.damage,new velocity(vect.f*this.pVelocity,vect.l*this.pVelocity));
 					this.entity.setVelocity(vect.f*this.velocity,vect.l*this.velocity);
 				}
 
@@ -64,7 +67,7 @@ function EnemyMelee(x,y,w,h) {
 			if(this.cc == 20) {
 				this.cc = 0;
 				var vect = new Vector2(Entities[0].entity.getPosition()[0]-this.entity.getPosition()[0],Entities[0].entity.getPosition()[1]-this.entity.getPosition()[1]);
-				if(Math.sqrt(vect.f*vect.f+vect.l*vect.l) < 600){
+				if(Math.sqrt(vect.f*vect.f+vect.l*vect.l) < 1000){
 					vect.normalize();
 					this.entity.setVelocity(vect.f*this.velocity,vect.l*this.velocity);
 				}

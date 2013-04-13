@@ -8,7 +8,7 @@ function Projectile(x,y,dmg,vel) {
 	this.entity.setVelocity(vel.x,vel.y);
 	this.entity.onCollide = function(who) {
 		var mess = new message(MESSAGE.HEALTH);
-		mess.health = -10;
+		mess.health = self.damage;
 		who.getParent().onMessage(mess);
 		self.entity.kill();
 	}

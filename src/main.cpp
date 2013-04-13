@@ -45,7 +45,7 @@ public:
 	{
 		print("o-> OnStart\n");
 		Image::Init();
-		m_canvas = Canvas::Create(640, 480, "Sandbox Game");
+		m_canvas = Canvas::Create(1200, 800, "Sandbox Game");
 		m_server = new Server();
 
 		m_server->ExecuteFile("../mod/server.js");

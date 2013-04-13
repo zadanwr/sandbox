@@ -109,7 +109,7 @@ namespace sandbox
 		m_camera = new game2d::ZoneCamera();
 		//m_camera->SetFocus(m_entity);
 
-		m_view = new ui::GameView2D(Vector2<int>(0, 0), Vector2<int>(640, 480));
+		m_view = new ui::GameView2D(Vector2<int>(0, 0), Vector2<int>(1200, 800));
 		m_view->SetCamera(m_camera);
 
 		ms_current = this;
@@ -205,9 +205,8 @@ namespace sandbox
 		m_plane->RemoveDead();
 	}
 	void Server::SendMouseButtonDown(ce::Event event) {
-		float x = (float)event.mouseMotion.x - (640.f/2.f - m_camera->GetFocus()->GetPosition()[0]);
-		float y = (480.f - (float)event.mouseMotion.y) - (480.f/2.f - m_camera->GetFocus()->GetPosition()[1]);
-		
+		float x = (float)event.mouseMotion.x - (1200.f/2.f - m_camera->GetFocus()->GetPosition()[0]);
+		float y = (800.f - (float)event.mouseMotion.y) - (800.f/2.f - m_camera->GetFocus()->GetPosition()[1]);
 		Context::Scope contextScope(m_context);
 		HandleScope handleScope;
 
@@ -225,6 +224,7 @@ namespace sandbox
 		events->Set(Integer::New(3), Number::New(event.mouseMotion.y));
 		events->Set(Integer::New(4), Number::New(mouse[0]));
 		events->Set(Integer::New(5), Number::New(mouse[1]));
+		events->Set(Integer::New(6), Number::New(event.mouseButton.button));
 		Handle<Value> args[] = {Number::New(2),events};
   		onEvent->Call(onEvent,2,args);
 	}

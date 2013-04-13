@@ -1,6 +1,8 @@
 print("Welcome to deathmatch mod!\n");
 exec("../scripts/global.js");
 
+gun_timeout = 0;
+
 function Server() {
 	this.state = 0;
 
@@ -12,25 +14,60 @@ function Server() {
 
 	this.onCreate = function() {
 		Entities.push(new Player());
+
+
 		Entities.push(new Wall(0,0,2000,100));
 		Entities.push(new Wall(0,100,100,1500));
-		Entities.push(new Wall(2100,0,100,1500));
-		Entities.push(new Wall(0,1600,2000,100));
+		Entities.push(new Wall(2000,0,100,1600));
+		Entities.push(new Wall(0,1600,2100,100));
 		Entities.push(new Wall(200,1400,50,200));
 		Entities.push(new Wall(100,1220,1000,50));
 		Entities.push(new Wall(1200,1220,700,50));
+		Entities.push(new Wall(1200,1270,50,400));
+
+
 		Entities.push(new EnemyMelee(650,650,32,32));
 		Entities.push(new EnemyMelee(1260,1300,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1260,1320,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1260,1340,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1260,1360,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1260,1380,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1260,1400,20,20));
+		Entities[Entities.length-1].health = 20;
 		Entities.push(new EnemyMelee(1290,1340,20,20));
 		Entities.push(new EnemyMelee(1290,1360,20,20));
 		Entities.push(new Enemy(350,350,32,32));
 		Entities.push(new Enemy(650,350,32,32));
-		Entities.push(new Enemy(90,1240,64,64));
+		Entities.push(new Enemy(90,90,64,64));
+		Entities[Entities.length-1].health = 1000;
+		Entities[Entities.length-1].pVelocity = 300;
+		Entities[Entities.length-1].damage = -.1;
+		Entities[Entities.length-1].delay = 10;
+		Entities.push(new Trigger(300,1500,100,100));
+
+		Entities[Entities.length-1].onCollide = function(who) {
+			this.entity.kill();
+			print(this.entity,"\n");
+			Entities.push(new Enemy(350,1550,32,32));
+			this.onCollide = function(who){}
+		}
+
+		
+		Entities.push(new Wall(1100,1220,100,50));
+		Entities.push(new Trigger(1100,1270,10,10));
+		Entities[Entities.length-1].door = Entities[Entities.length-2];
+		Entities[Entities.length-1].onCollide = function(who) {
+			if(who.type == "player") {
+				print(this.door.type,"\n");
+				this.entity.kill();
+				this.door.entity.kill();
+			}
+		}
 		Entities[0].entity.setAsFocus();
 
 	}
@@ -38,6 +75,7 @@ function Server() {
 	this.onEvent = function(event,extra) {
 		switch(event) {
 			case EVENT.STEP:
+				gun_timeout--;
 				for(i = 0;i<Entities.length;i++) Entities[i].onEvent(event,null);
 				break;
 			case EVENT.KEYDOWN:
@@ -71,7 +109,15 @@ function Server() {
 				}
 				break;
 			case EVENT.MOUSEDOWN:
-				new Projectile(Entities[0].entity.getPosition()[0]+ 50*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 50*extra[5]+11,50,new velocity(extra[4]*200,extra[5]*200));
+				if(extra[6]==1)new Projectile(Entities[0].entity.getPosition()[0]+ 35*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 35*extra[5]+11,-5,new velocity(extra[4]*200,extra[5]*200));
+				if(extra[6]==3 && gun_timeout < 0) {
+					gun_timeout = 500;
+					new Projectile(Entities[0].entity.getPosition()[0]+ 130*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 130*extra[5]+11,-15,new velocity(extra[4]*400,extra[5]*400));
+					new Projectile(Entities[0].entity.getPosition()[0]+ 110*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 110*extra[5]+11,-15,new velocity(extra[4]*400,extra[5]*400));
+					new Projectile(Entities[0].entity.getPosition()[0]+ 90*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 90*extra[5]+11,-15,new velocity(extra[4]*400,extra[5]*400));
+					new Projectile(Entities[0].entity.getPosition()[0]+ 70*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 70*extra[5]+11,-15,new velocity(extra[4]*400,extra[5]*400));
+					new Projectile(Entities[0].entity.getPosition()[0]+ 50*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 50*extra[5]+11,-15,new velocity(extra[4]*400,extra[5]*400));
+				}
 				break;
 		}
 	}
@@ -109,6 +155,7 @@ function Player() {
 		this.entity.setVelocity(this.vX,this.vY);
 	}
 	this.onCollide = function(who) {
+		if(who.getParent().type == "trigger") who.getParent().onCollide(self);
 	}
 	this.onEvent = function(event,extra) {
 		switch(event) {
@@ -143,6 +190,7 @@ function Player() {
 
 exec("../mod/Projectile.js");
 exec("../mod/Enemy.js");
+exec("../mod/Trigger.js");
 
 var serv = new Server();
 registerMod("serv");
