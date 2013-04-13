@@ -19,12 +19,12 @@ namespace sandbox
 		objectTemplate->Set(String::New("setExtent"), FunctionTemplate::New(Binding_setExtent));
 		objectTemplate->Set(String::New("setVelocity"), FunctionTemplate::New(Binding_setVelocity));
 		objectTemplate->Set(String::New("setAsFocus"), FunctionTemplate::New(Binding_setAsFocus));
-		objectTemplate->Set(String::New("setID"), FunctionTemplate::New(Binding_setID));
+		objectTemplate->Set(String::New("kill"), FunctionTemplate::New(Binding_kill));
 		
 		HandleScope handleScope;
 
 		Entity *entity = new Entity(position, extent);
-		Local<Object> instance = objectTemplate->NewInstance();
+		Persistent<Object> instance = Persistent<Object>::New(objectTemplate->NewInstance());
 		instance->SetInternalField(0, External::New(entity));
 		entity->m_instance = instance;
 
@@ -86,6 +86,18 @@ namespace sandbox
 		for(int a = 0; a < 2; a++)
 			result->Set(Integer::New(a), Number::New(extent[a]));
 		return result;
+	}
+	Handle<Value> Entity::Binding_kill(const Arguments& args)
+	{
+		HandleScope handleScope;
+		ce::print("Kill\n");
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		static_cast<Entity *>(ptr)->Kill();
+
+		
+		return Undefined();
 	}
 	Handle<Value> Entity::Binding_getVelocity(const Arguments& args)
 	{
@@ -159,12 +171,23 @@ namespace sandbox
 
 		return Undefined();
 	}
+	bool Entity::OnCollision(ce::game2d::ZoneEntity *collider) {
+		ce::print("Collide %d %d\n",&(this->m_instance),collider);
+
+		HandleScope handleScope;
+
+		Handle<Function> onEvent = Handle<Function>::Cast(this->m_instance->Get(String::New("onCollide")));
+		v8::Handle<v8::Value> args[] = {((Entity *)collider)->m_instance};
+		onEvent->Call(onEvent,1,args);
+		return true;
+	}
 
 	Entity::Entity(ce::Vector2<float> position, ce::Vector2<float> extent) : ce::game2d::ZoneEntity(position, extent)
 	{
 	}
 	Entity::~Entity()
 	{
-		// TODO: Delete Javascript instance
+		m_instance.Dispose();
+		m_instance.Clear();
 	}
 }

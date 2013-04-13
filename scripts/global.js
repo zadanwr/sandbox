@@ -34,3 +34,36 @@ function velocity(x,y) {
 function message(type) {
 	this.type = type;
 }
+
+function Entity(x,y,w,h) {
+	var self = this;
+	this.entity = new entity(x,y,w,h);
+	this.entity.parent = this;
+	this.entity.onCollide = function(who) {
+		self.onCollide(who);
+	}
+	this.entity.getParent = function() {
+		return self;
+	}
+	this.onCollide = function(who) {
+		print("Yolo\n");
+	}
+	this.onEvent = function(event,extra) {
+		switch(event) {
+			case EVENT.COLLIDE:
+				this.onCollide(extra);
+				break;
+			case EVENT.MESSAGE:
+				this.onMessage(extra);
+				break;
+		}
+	}
+	this.onMessage = function(message) {
+		switch(message.type) {
+		}
+	}
+
+}
+
+
+exec("../scripts/Wall.js");

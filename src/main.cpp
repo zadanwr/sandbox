@@ -63,6 +63,8 @@ public:
 			m_server->ProccessPhysics((t-last_proccess)/1000.0f);
 			last_proccess = t;
 		}
+		m_server->RemoveDead();
+		ce::game2d::Entity::DeleteDead();
 		sleepMS(1);
 		return true;
 	}

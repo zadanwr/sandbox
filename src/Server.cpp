@@ -192,7 +192,9 @@ namespace sandbox
   		onEvent->Call(onEvent,2,args);
   		return true;
 	} 
-
+	void Server::RemoveDead() {
+		m_plane->RemoveDead();
+	}
 	void Server::SendMouseButtonDown(ce::Event event) {
 		float x = (float)event.mouseMotion.x - (640.f/2.f - m_camera->GetFocus()->GetPosition()[0]);
 		float y = (480.f - (float)event.mouseMotion.y) - (480.f/2.f - m_camera->GetFocus()->GetPosition()[1]);

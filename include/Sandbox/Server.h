@@ -45,6 +45,7 @@ namespace sandbox
 		void ProccessPhysics(float dt);
 		void Render();
 		void SendMouseButtonDown(ce::Event event);
+		void RemoveDead();
 	};
 }
 
