@@ -15,7 +15,6 @@ namespace sandbox
 		Server();
 		~Server();
 
-		bool InitNativeBindings();
 		bool ExecuteFile(const char *file);
 	};
 }

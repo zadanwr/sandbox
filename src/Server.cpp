@@ -15,17 +15,27 @@ using namespace std;
 
 namespace sandbox
 {
+	Handle<Value> Binding_print(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+		HandleScope handleScope;
+		Handle<Value> arg = args[0];
+		String::Utf8Value value(arg);
+		print("%s\n", *value);
+		return Undefined();
+	}
+
 	Server::Server()
 	{
-		m_context = Context::New();
+		Handle<ObjectTemplate> global = ObjectTemplate::New();
+		global->Set(String::New("print"), FunctionTemplate::New(Binding_print));
+
+		m_context = Context::New(NULL, global);
 	}
 	Server::~Server()
 	{
 		m_context.Dispose();
-	}
-	bool Server::InitNativeBindings()
-	{
-		return true;
 	}
 	bool Server::ExecuteFile(const char *file)
 	{
