@@ -7,7 +7,7 @@
 #include <CE/Base.h>
 #include <CE/Canvas.h>
 #include <CE/Thread.h>
-
+#include <CE/Image.h>
 
 //- Sandbox -
 #include <Sandbox/Server.h>
@@ -44,6 +44,7 @@ public:
 	bool OnStart()
 	{
 		print("o-> OnStart\n");
+		Image::Init();
 		m_canvas = Canvas::Create(640, 480, "Sandbox Game");
 		m_server = new Server();
 

@@ -9,15 +9,19 @@ set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(INC
 	${INC_DIR}/Sandbox/Entity.h
+	${INC_DIR}/Sandbox/Image.h
 	${INC_DIR}/Sandbox/Mod.h
 	${INC_DIR}/Sandbox/Server.h
+	${INC_DIR}/Sandbox/Sprite.h
 )
 
 set(SRC
 	${SRC_DIR}/main.cpp
 	${SRC_DIR}/Entity.cpp
+	${SRC_DIR}/Image.cpp
 	${SRC_DIR}/Mod.cpp
 	${SRC_DIR}/Server.cpp
+	${SRC_DIR}/Sprite.cpp
 )
 
 set(INCLUDE
@@ -62,6 +66,14 @@ find_package(OpenGL REQUIRED)
 set(LIB ${LIB}
 	${OPENGL_LIBRARIES}
 )
+
+find_package(DevIL REQUIRED)
+set(LIB ${LIB} ${IL_LIBRARIES} ${ILU_LIBRARIES})
+set(INCLUDE ${INCLUDE} ${IL_INCLUDE_DIR}/..)
+
+find_package(Freetype REQUIRED)
+set(LIB ${LIB} ${FREETYPE_LIBRARIES})
+set(INCLUDE ${INCLUDE} ${FREETYPE_INCLUDE_DIRS})
 
 find_package(V8 REQUIRED)
 set(LIB ${LIB}
