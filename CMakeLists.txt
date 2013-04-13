@@ -8,11 +8,13 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(INC
+	${INC_DIR}/Sandbox/Mod.h
 	${INC_DIR}/Sandbox/Server.h
 )
 
 set(SRC
 	${SRC_DIR}/main.cpp
+	${SRC_DIR}/Mod.cpp
 	${SRC_DIR}/Server.cpp
 )
 
