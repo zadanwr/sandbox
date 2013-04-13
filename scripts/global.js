@@ -4,7 +4,8 @@ var EVENT = {
 	MOUSEDOWN:2,
 	MOUSEUP:3,
 	COLLIDE:4,
-	MESSAGE:5
+	MESSAGE:5,
+	STEP:6
 }
 
 var MESSAGE = {

@@ -14,6 +14,7 @@ function Server() {
 		Entities.push(new Player());
 		Entities.push(new Wall(0,0,100,500));
 		Entities.push(new Wall(450,400,500,100));
+		Entities.push(new Enemy(650,650,100,100));
 		Entities[0].entity.setAsFocus();
 
 	}

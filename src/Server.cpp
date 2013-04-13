@@ -74,6 +74,13 @@ namespace sandbox
 	void Server::ProccessPhysics(float dt) {
 		//print("%f\n",dt);
 		m_plane->ProcessPhysics(dt);
+		Context::Scope contextScope(m_context);
+		HandleScope handleScope;
+
+		Handle<Object> t_server = Handle<Object>::Cast(m_context->Global()->Get(String::New(m_serverName.c_str())));
+		Handle<Function> onEvent = Handle<Function>::Cast(t_server->Get(String::New("onEvent")));
+		v8::Handle<v8::Value> args[] = {Integer::New(6)};
+  		onEvent->Call(onEvent,1,args);
 	}
 
 	void Server::Render() {
