@@ -25,3 +25,12 @@ function Vector2(first,last) {
 	this.f = first;
 	this.l = last;
 }
+
+function velocity(x,y) {
+	this.x = x;
+	this.y = y;
+}
+
+function message(type) {
+	this.type = type;
+}

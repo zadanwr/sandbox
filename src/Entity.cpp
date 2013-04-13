@@ -19,6 +19,7 @@ namespace sandbox
 		objectTemplate->Set(String::New("setExtent"), FunctionTemplate::New(Binding_setExtent));
 		objectTemplate->Set(String::New("setVelocity"), FunctionTemplate::New(Binding_setVelocity));
 		objectTemplate->Set(String::New("setAsFocus"), FunctionTemplate::New(Binding_setAsFocus));
+		objectTemplate->Set(String::New("setID"), FunctionTemplate::New(Binding_setID));
 		
 		HandleScope handleScope;
 
@@ -111,6 +112,22 @@ namespace sandbox
 		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
 		void* ptr = wrap->Value();
 		static_cast<Entity *>(ptr)->SetPosition(ce::Vector2<float>((float)args[0]->NumberValue(), (float)args[1]->NumberValue()));
+
+		return Undefined();
+	}
+	Handle<Value> Entity::Binding_setID(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		//static_cast<Entity *>(ptr)->SetPosition(ce::Vector2<float>((float)args[0]->NumberValue(), (float)args[1]->NumberValue()));
+
+		static_cast<Entity *>(ptr)->id = args[0]->IntegerValue();
 
 		return Undefined();
 	}

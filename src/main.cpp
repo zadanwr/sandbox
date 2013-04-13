@@ -85,6 +85,9 @@ public:
 			print("%d\n", event.key.keyCode);
 			m_server->SendKeyup(event.key.keyCode);
 			break;
+		case event::MouseButtonDown:
+			m_server->SendMouseButtonDown(event);
+			break;
 		case event::PostRender:
 			m_server->Render();
 			break;

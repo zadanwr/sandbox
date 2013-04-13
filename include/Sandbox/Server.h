@@ -44,6 +44,7 @@ namespace sandbox
 		void PlaceEntity(ce::game2d::ZoneEntity *c_entity);
 		void ProccessPhysics(float dt);
 		void Render();
+		void SendMouseButtonDown(ce::Event event);
 	};
 }
 

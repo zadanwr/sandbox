@@ -193,5 +193,30 @@ namespace sandbox
   		return true;
 	} 
 
+	void Server::SendMouseButtonDown(ce::Event event) {
+		float x = (float)event.mouseMotion.x - (640.f/2.f - m_camera->GetFocus()->GetPosition()[0]);
+		float y = (480.f - (float)event.mouseMotion.y) - (480.f/2.f - m_camera->GetFocus()->GetPosition()[1]);
+		
+		Context::Scope contextScope(m_context);
+		HandleScope handleScope;
+
+		Handle<Object> t_server = Handle<Object>::Cast(m_context->Global()->Get(String::New(m_serverName.c_str())));
+		Handle<Function> onEvent = Handle<Function>::Cast(t_server->Get(String::New("onEvent")));
+
+		Vector2<float> mouse = Vector2<float>(x,y);
+		mouse = mouse - m_camera->GetFocus()->GetPosition();
+		if(mouse.GetLength() != 0) mouse /= mouse.GetLength();
+
+		Handle<Array> events = Array::New();
+		events->Set(Integer::New(0), Number::New(x));
+		events->Set(Integer::New(1), Number::New(y));
+		events->Set(Integer::New(2), Number::New(event.mouseMotion.x));
+		events->Set(Integer::New(3), Number::New(event.mouseMotion.y));
+		events->Set(Integer::New(4), Number::New(mouse[0]));
+		events->Set(Integer::New(5), Number::New(mouse[1]));
+		Handle<Value> args[] = {Number::New(2),events};
+  		onEvent->Call(onEvent,2,args);
+	}
+
 
 }
