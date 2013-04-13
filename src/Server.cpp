@@ -7,6 +7,7 @@
 #include <CE/Base.h>
 
 //- Sandbox -
+#include <Sandbox/Entity.h>
 #include <Sandbox/Server.h>
 
 using namespace ce;
@@ -60,9 +61,14 @@ namespace sandbox
 	Server::Server()
 	{
 		Handle<ObjectTemplate> global = ObjectTemplate::New();
+
+		//- Global Functions -
 		global->Set(String::New("print"), FunctionTemplate::New(Binding_print));
 		global->Set(String::New("exec"), FunctionTemplate::New(Binding_exec));
 		global->Set(String::New("registerMod"), FunctionTemplate::New(Binding_registerMod));
+
+		//- Global Classes -
+		global->Set(String::New("entity"), FunctionTemplate::New(Entity::Binding_entity));
 
 		m_context = Context::New(NULL, global);
 
