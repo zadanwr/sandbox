@@ -58,6 +58,29 @@ namespace sandbox
 	{
 		return ms_current;
 	}
+
+	void Server::SetFocus(game2d::ZoneEntity *c_entity) {
+		m_plane->Place(c_entity);
+		m_camera->SetFocus(c_entity);
+
+		print("%f\n",m_view->GetCamera()->GetFocus()->GetPosition()[0]);
+	}
+
+	void Server::PlaceEntity(game2d::ZoneEntity *c_entity) {
+		//m_camera->SetFocus(c_entity);
+		m_plane->Place(c_entity);
+	}
+
+	void Server::ProccessPhysics(float dt) {
+		//print("%f\n",dt);
+		m_plane->ProcessPhysics(dt);
+	}
+
+	void Server::Render() {
+
+
+				m_view->Render();
+	}
 	Server::Server()
 	{
 		Handle<ObjectTemplate> global = ObjectTemplate::New();
@@ -71,6 +94,14 @@ namespace sandbox
 		global->Set(String::New("entity"), FunctionTemplate::New(Entity::Binding_entity));
 
 		m_context = Context::New(NULL, global);
+
+		m_plane = new game2d::Plane(16, 16, 64.f);
+
+		m_camera = new game2d::ZoneCamera();
+		//m_camera->SetFocus(m_entity);
+
+		m_view = new ui::GameView2D(Vector2<int>(0, 0), Vector2<int>(640, 480));
+		m_view->SetCamera(m_camera);
 
 		ms_current = this;
 	}

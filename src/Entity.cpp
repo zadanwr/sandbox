@@ -18,6 +18,7 @@ namespace sandbox
 		objectTemplate->Set(String::New("setPosition"), FunctionTemplate::New(Binding_setPosition));
 		objectTemplate->Set(String::New("setExtent"), FunctionTemplate::New(Binding_setExtent));
 		objectTemplate->Set(String::New("setVelocity"), FunctionTemplate::New(Binding_setVelocity));
+		objectTemplate->Set(String::New("setAsFocus"), FunctionTemplate::New(Binding_setAsFocus));
 		
 		HandleScope handleScope;
 
@@ -40,6 +41,8 @@ namespace sandbox
 		float extY = (float)args[3]->NumberValue();
 
 		Entity *entity = Entity::Create(ce::Vector2<float>(posX, posY), ce::Vector2<float>(extX, extY));
+		
+		Server::GetCurrent()->PlaceEntity(static_cast<Entity *>(entity));
 		return entity->m_instance;
 	}
 	Handle<Value> Entity::Binding_getPosition(const Arguments& args)
@@ -55,6 +58,19 @@ namespace sandbox
 		for(int a = 0; a < 2; a++)
 			result->Set(Integer::New(a), Number::New(position[a]));
 		return result;
+	}
+	Handle<Value> Entity::Binding_setAsFocus(const Arguments& args)
+	{
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+
+		Server::GetCurrent()->SetFocus(static_cast<Entity *>(ptr));
+
+
+		return Undefined();
 	}
 	Handle<Value> Entity::Binding_getExtent(const Arguments& args)
 	{

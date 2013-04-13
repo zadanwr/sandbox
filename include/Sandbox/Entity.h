@@ -10,6 +10,8 @@
 //- Javascript V8 -
 #include <v8.h>
 
+#include "Server.h"
+
 namespace sandbox
 {
 	class Entity : public ce::game2d::ZoneEntity
@@ -26,6 +28,7 @@ namespace sandbox
 		static v8::Handle<v8::Value> Binding_setPosition(const v8::Arguments& args);
 		static v8::Handle<v8::Value> Binding_setExtent(const v8::Arguments& args);
 		static v8::Handle<v8::Value> Binding_setVelocity(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_setAsFocus(const v8::Arguments& args);
 
 		~Entity();
 	};

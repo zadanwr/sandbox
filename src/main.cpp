@@ -8,6 +8,7 @@
 #include <CE/Canvas.h>
 #include <CE/Thread.h>
 
+
 //- Sandbox -
 #include <Sandbox/Server.h>
 
@@ -26,6 +27,7 @@ class AppSandbox : public AppFrontend
 
 public:
 	string m_workingStr;
+	float last_proccess;
 
 	AppSandbox()
 	{
@@ -51,12 +53,16 @@ public:
 	}
 	bool OnProcess()
 	{
+		unsigned long t = GetRunTimeMS();
 		if(m_workingStr.size())
 		{
 			m_server->ExecuteString(m_workingStr.c_str());
 			m_workingStr = "";
 		}
-
+		if((t-last_proccess) > 15) {
+			m_server->ProccessPhysics((t-last_proccess)/1000.0f);
+			last_proccess = t;
+		}
 		sleepMS(1);
 		return true;
 	}
@@ -78,6 +84,9 @@ public:
 		case event::KeyUp:
 			print("%d\n", event.key.keyCode);
 			m_server->SendKeyup(event.key.keyCode);
+			break;
+		case event::PostRender:
+			m_server->Render();
 			break;
 		}
 		return true;
