@@ -24,6 +24,7 @@ namespace sandbox
 	public:
 		static Sprite *Create(Image *image);
 		static v8::Handle<v8::Value> Binding_sprite(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_addAnimation(const v8::Arguments& args);
 
 		ce::game2d::Sprite *GetSource() const;
 
