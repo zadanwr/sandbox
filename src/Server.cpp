@@ -25,13 +25,31 @@ namespace sandbox
 		print("%s\n", *value);
 		return Undefined();
 	}
+	Handle<Value> Binding_exec(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+		HandleScope handleScope;
+		Handle<Value> arg = args[0];
+		String::Utf8Value value(arg);
+		Server::GetCurrent()->ExecuteFile(*value);
+		return Undefined();
+	}
 
+	Server *Server::ms_current = 0;
+	Server *Server::GetCurrent()
+	{
+		return ms_current;
+	}
 	Server::Server()
 	{
 		Handle<ObjectTemplate> global = ObjectTemplate::New();
 		global->Set(String::New("print"), FunctionTemplate::New(Binding_print));
+		global->Set(String::New("exec"), FunctionTemplate::New(Binding_exec));
 
 		m_context = Context::New(NULL, global);
+
+		ms_current = this;
 	}
 	Server::~Server()
 	{
