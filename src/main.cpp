@@ -3,17 +3,23 @@
 #include <CE/Base.h>
 #include <CE/Canvas.h>
 
+//- Sandbox -
+#include <Sandbox/Server.h>
+
 using namespace ce;
+using namespace sandbox;
 
 //- Define your own implementation of the AppFrontend class. -
 class AppSandbox : public AppFrontend
 {
 	Canvas *m_canvas;
+	Server *m_server;
 
 public:
 	AppSandbox()
 	{
 		m_canvas = 0;
+		m_server = 0;
 	}
 	~AppSandbox()
 	{
@@ -24,6 +30,7 @@ public:
 	{
 		print("o-> OnStart\n");
 		m_canvas = Canvas::Create(640, 480, "Sandbox Game");
+		m_server = new Server();
 
 		return true;
 	}
@@ -35,6 +42,7 @@ public:
 	void OnStopped()
 	{
 		print("o-> OnStopped\n");
+		delete m_server;
 		delete m_canvas;
 	}
 	bool OnEvent(Event &event)
