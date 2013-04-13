@@ -1,8 +1,17 @@
 //- Centhra Engine -
 #include <CE/Base.h>
+#include <CE/App.h>
 
 //- Sandbox -
 #include <Sandbox/Entity.h>
+
+#ifdef _WIN32
+	//- Windows -
+	#include <Windows.h>
+#endif
+
+//- OpenGL -
+#include <GL/gl.h>
 
 using namespace v8;
 
@@ -20,6 +29,8 @@ namespace sandbox
 		objectTemplate->Set(String::New("setVelocity"), FunctionTemplate::New(Binding_setVelocity));
 		objectTemplate->Set(String::New("setAsFocus"), FunctionTemplate::New(Binding_setAsFocus));
 		objectTemplate->Set(String::New("kill"), FunctionTemplate::New(Binding_kill));
+		objectTemplate->Set(String::New("setSprite"), FunctionTemplate::New(Binding_setSprite));
+		objectTemplate->Set(String::New("setAnimation"), FunctionTemplate::New(Binding_setAnimation));
 		
 		HandleScope handleScope;
 
@@ -170,6 +181,42 @@ namespace sandbox
 
 		return Undefined();
 	}
+	Handle<Value> Entity::Binding_setSprite(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+
+		Local<Object> sprite = Local<Object>::Cast(args[0]);
+		Local<External> wrap2 = Local<External>::Cast(sprite->GetInternalField(0));
+		void* ptr2 = wrap2->Value();
+		Sprite *spr = static_cast<Sprite *>(ptr2);
+		static_cast<Entity *>(ptr)->m_sprite = spr;
+
+		return Undefined();
+	}
+	Handle<Value> Entity::Binding_setAnimation(const Arguments& args)
+	{
+		if(args.Length() < 1)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+
+		Entity *entity = static_cast<Entity *>(ptr);
+		entity->m_animation = args[0]->IntegerValue();
+		entity->m_animationStart = ce::App::GetCurrent()->GetRunTimeMS();
+
+		return Undefined();
+	}
 	bool Entity::OnCollision(ce::game2d::ZoneEntity *collider) {
 
 		HandleScope handleScope;
@@ -182,10 +229,27 @@ namespace sandbox
 
 	Entity::Entity(ce::Vector2<float> position, ce::Vector2<float> extent) : ce::game2d::ZoneEntity(position, extent)
 	{
+		m_sprite = 0;
+		m_animation = 0;
+		m_animationStart = 0;
 	}
 	Entity::~Entity()
 	{
 		m_instance.Dispose();
 		m_instance.Clear();
+	}
+	void Entity::DoRender()
+	{
+		if(m_sprite)
+		{
+			ce::Vector2<float> extent = GetExtent();
+			glPushMatrix();
+				glScalef(extent[0], extent[1], 1.f);
+				float t = (ce::App::GetCurrent()->GetRunTimeMS() - m_animationStart) / 1000.f;
+				m_sprite->GetSource()->Draw(m_animation, t);
+			glPopMatrix();
+		}
+		else
+			ce::game2d::ZoneEntity::DoRender();
 	}
 }

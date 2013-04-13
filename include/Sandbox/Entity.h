@@ -10,7 +10,9 @@
 //- Javascript V8 -
 #include <v8.h>
 
-#include "Server.h"
+//- Sandbox -
+#include <Sandbox/Server.h>
+#include <Sandbox/Sprite.h>
 
 namespace sandbox
 {
@@ -18,7 +20,12 @@ namespace sandbox
 	{
 		v8::Persistent<v8::Object> m_instance;
 		Entity(ce::Vector2<float> position, ce::Vector2<float> extent);
-		
+		Sprite *m_sprite;
+		int m_animation;
+		unsigned long m_animationStart;
+	protected:
+		void DoRender();
+
 	public:
 		int id;
 		static Entity *Create(ce::Vector2<float> position, ce::Vector2<float> extent);
@@ -32,6 +39,8 @@ namespace sandbox
 		static v8::Handle<v8::Value> Binding_setAsFocus(const v8::Arguments& args);
 		static v8::Handle<v8::Value> Binding_setID(const v8::Arguments& args);
 		static v8::Handle<v8::Value> Binding_kill(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_setSprite(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_setAnimation(const v8::Arguments& args);
 		bool OnCollision(ce::game2d::ZoneEntity *collider);
 
 		~Entity();
