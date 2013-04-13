@@ -20,9 +20,12 @@ namespace sandbox
 		if(args.Length() < 1)
 			return Undefined();
 		HandleScope handleScope;
-		Handle<Value> arg = args[0];
-		String::Utf8Value value(arg);
-		print("%s", *value);
+		for(int a = 0; a < args.Length(); a++)
+		{
+			Handle<Value> arg = args[a];
+			String::Utf8Value value(arg);
+			print("%s", *value);
+		}
 		return Undefined();
 	}
 
@@ -34,7 +37,6 @@ namespace sandbox
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(arg);
 		
-
 		Server::GetCurrent()->RegisterMod(*value);
   
 		print("%s\n", *value);
