@@ -43,7 +43,7 @@ function Player() {
 	this.vY = 0;
 	this.health = 50;
 	print("Player created\n");
-	this.entity = createEntity(120,120,120,120);
+	this.entity = new entity(120,120,120,120);
 	this.move = function(code) {
 		if(code == 111) vY = 10;
 		if(code == 116) vY = -10;
@@ -91,7 +91,7 @@ function Wall(x,y,w,h) {
 	this.vX = 0;
 	this.vY = 0;
 	print("Player created\n");
-	this.entity = createEntity(x,y,w,h);
+	this.entity = new entity(x,y,w,h);
 	
 	this.onCollide = function(who) {
 		print("WALL DGAF\n");
