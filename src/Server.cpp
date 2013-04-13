@@ -22,7 +22,7 @@ namespace sandbox
 		HandleScope handleScope;
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(arg);
-		print("%s\n", *value);
+		print("%s", *value);
 		return Undefined();
 	}
 
@@ -112,10 +112,10 @@ namespace sandbox
 		Handle<String> source = String::New(fileContents);
 		Handle<Script> script = Script::Compile(source);
 		Handle<Value> result = script->Run();
-		String::AsciiValue ascii(result);
+/*		String::AsciiValue ascii(result);
 		if(ascii.length())
 			print("%s\n", *ascii);
-
+*/
 		delete [] fileContents;
 		return true;
 	}
@@ -127,9 +127,9 @@ namespace sandbox
 		Handle<String> source = String::New(str);
 		Handle<Script> script = Script::Compile(source);
 		Handle<Value> result = script->Run();
-		String::AsciiValue ascii(result);
+/*		String::AsciiValue ascii(result);
 		if(ascii.length())
 			print("%s\n", *ascii);
-		return true;
+*/		return true;
 	}
 }
