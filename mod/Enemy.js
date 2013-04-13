@@ -52,7 +52,7 @@ function EnemyMelee(x,y,w,h) {
 	this.entity.onCollide = function(who) {
 		var mess = new message(MESSAGE.HEALTH);
 		mess.health = -.75;
-		who.getParent().onMessage(mess);
+		if(who.getParent().type == "player")who.getParent().onMessage(mess);
 	}
 	this.entity.getParent = function() {
 		return self;

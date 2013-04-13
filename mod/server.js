@@ -17,9 +17,17 @@ function Server() {
 		Entities.push(new Wall(2100,0,100,1500));
 		Entities.push(new Wall(0,1600,2000,100));
 		Entities.push(new Wall(200,1400,50,200));
-		Entities.push(new Wall(100,1200,1000,50));
-		Entities.push(new Wall(1300,1200,700,50));
+		Entities.push(new Wall(100,1220,1000,50));
+		Entities.push(new Wall(1200,1220,700,50));
 		Entities.push(new EnemyMelee(650,650,32,32));
+		Entities.push(new EnemyMelee(1260,1000,20,20));
+		Entities.push(new EnemyMelee(1200,1000,20,20));
+		Entities.push(new EnemyMelee(1220,1000,20,20));
+		Entities.push(new EnemyMelee(1240,1000,20,20));
+		Entities.push(new EnemyMelee(1260,1000,20,20));
+		Entities.push(new EnemyMelee(1280,1000,20,20));
+		Entities.push(new EnemyMelee(1300,1000,20,20));
+		Entities.push(new EnemyMelee(1320,1000,20,20));
 		Entities.push(new Enemy(350,350,32,32));
 		Entities.push(new Enemy(650,350,32,32));
 		Entities.push(new Enemy(90,1240,64,64));
@@ -75,6 +83,7 @@ function Player() {
 	this.vX = 0.0;
 	this.vY = 0.0;
 	this.health = 50;
+	this.type = "player";
 
 	print(Entities.indexOf(this) + "\n");
 	this.entity = new entity(100,1568,32,32);
