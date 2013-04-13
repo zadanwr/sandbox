@@ -20,6 +20,7 @@ namespace sandbox
 		~Server();
 
 		bool ExecuteFile(const char *file);
+		bool ExecuteString(const char *str);
 	};
 }
 

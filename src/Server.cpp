@@ -81,4 +81,17 @@ namespace sandbox
 		delete [] fileContents;
 		return true;
 	}
+	bool Server::ExecuteString(const char *str)
+	{
+		Context::Scope contextScope(m_context);
+		HandleScope handleScope;
+
+		Handle<String> source = String::New(str);
+		Handle<Script> script = Script::Compile(source);
+		Handle<Value> result = script->Run();
+		String::AsciiValue ascii(result);
+		if(ascii.length())
+			print("%s\n", *ascii);
+		return true;
+	}
 }
