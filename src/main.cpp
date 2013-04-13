@@ -49,7 +49,7 @@ public:
 		m_canvas = Canvas::Create(_WIDTH, _HEIGHT, "Sandbox Game");
 		m_server = new Server();
 
-//		m_server->ExecuteFile("../mod/loader.js");
+		m_server->ExecuteFile("../mod/loader.js");
 		m_stdinThread->Start(this);
 		return true;
 	}

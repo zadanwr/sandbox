@@ -109,7 +109,7 @@ namespace sandbox
 		m_camera = new game2d::ZoneCamera();
 		//m_camera->SetFocus(m_entity);
 
-		m_view = new ui::GameView2D(Vector2<int>(0, 0), Vector2<int>(700, 480));
+		m_view = new ui::GameView2D(Vector2<int>(0, 0), Vector2<int>(_WIDTH, _HEIGHT));
 		m_view->SetCamera(m_camera);
 
 		ms_current = this;
