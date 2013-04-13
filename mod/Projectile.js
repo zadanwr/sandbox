@@ -4,11 +4,9 @@ function Projectile(x,y,dmg,vel) {
 	this.damage = dmg;
 	this.x = x;
 	this.y = y;
-	print("Projectile created\n");
 	this.entity = new entity(x,y,10,10);
 	this.entity.setVelocity(vel.x,vel.y);
 	this.entity.onCollide = function(who) {
-		print("IDGAF\n");
 		var mess = new message(MESSAGE.HEALTH);
 		mess.health = -10;
 		who.getParent().onMessage(mess);

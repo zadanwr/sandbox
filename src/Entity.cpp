@@ -90,7 +90,6 @@ namespace sandbox
 	Handle<Value> Entity::Binding_kill(const Arguments& args)
 	{
 		HandleScope handleScope;
-		ce::print("Kill\n");
 		Local<Object> self = args.This();
 		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
 		void* ptr = wrap->Value();
@@ -172,7 +171,6 @@ namespace sandbox
 		return Undefined();
 	}
 	bool Entity::OnCollision(ce::game2d::ZoneEntity *collider) {
-		ce::print("Collide %d %d\n",&(this->m_instance),collider);
 
 		HandleScope handleScope;
 

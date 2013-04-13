@@ -12,16 +12,26 @@ function Server() {
 
 	this.onCreate = function() {
 		Entities.push(new Player());
-		Entities.push(new Wall(0,0,100,500));
-		Entities.push(new Wall(450,400,500,100));
-		Entities.push(new Enemy(650,650,100,100));
+		Entities.push(new Wall(0,0,2000,100));
+		Entities.push(new Wall(0,100,100,1500));
+		Entities.push(new Wall(2100,0,100,1500));
+		Entities.push(new Wall(0,1600,2000,100));
+		Entities.push(new Wall(200,1400,50,200));
+		Entities.push(new Wall(100,1200,1000,50));
+		Entities.push(new Wall(1300,1200,700,50));
+		Entities.push(new EnemyMelee(650,650,32,32));
+		Entities.push(new Enemy(350,350,32,32));
+		Entities.push(new Enemy(650,350,32,32));
+		Entities.push(new Enemy(90,1240,64,64));
 		Entities[0].entity.setAsFocus();
 
 	}
 
 	this.onEvent = function(event,extra) {
-		//print("Key " + extra + "\n");
 		switch(event) {
+			case EVENT.STEP:
+				for(i = 0;i<Entities.length;i++) Entities[i].onEvent(event,null);
+				break;
 			case EVENT.KEYDOWN:
 				switch(extra) {
 					case 111:
@@ -53,7 +63,6 @@ function Server() {
 				}
 				break;
 			case EVENT.MOUSEDOWN:
-				print(extra[0] + " " + extra[1] + "\n");
 				new Projectile(Entities[0].entity.getPosition()[0]+ 50*extra[4] + 11,Entities[0].entity.getPosition()[1]+ 50*extra[5]+11,50,new velocity(extra[4]*200,extra[5]*200));
 				break;
 		}
@@ -66,13 +75,11 @@ function Player() {
 	this.vX = 0.0;
 	this.vY = 0.0;
 	this.health = 50;
-	print("Player created\n");
 
 	print(Entities.indexOf(this) + "\n");
-	this.entity = new entity(512,512,32,32);
+	this.entity = new entity(100,1568,32,32);
 	this.entity.parent = this;
 	this.entity.onCollide = function(who) {
-		print("BLAH" + self.health + "\n");
 		self.onCollide(who);
 	}
 	this.entity.getParent = function() {
@@ -93,7 +100,6 @@ function Player() {
 		this.entity.setVelocity(this.vX,this.vY);
 	}
 	this.onCollide = function(who) {
-		print("IDGAF\n");
 	}
 	this.onEvent = function(event,extra) {
 		switch(event) {
@@ -112,7 +118,6 @@ function Player() {
 		}
 	}
 	this.onMessage = function(message) {
-		print(self.health + "\n");
 		switch(message.type) {
 			case MESSAGE.HEALTH:
 				this.health += message.health;

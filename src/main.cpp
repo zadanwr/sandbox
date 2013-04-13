@@ -80,11 +80,11 @@ public:
 		switch(event.type)
 		{
 		case event::KeyDown:
-			print("%d\n", event.key.keyCode);
+			//print("%d\n", event.key.keyCode);
 			m_server->SendKeydown(event.key.keyCode);
 			break;
 		case event::KeyUp:
-			print("%d\n", event.key.keyCode);
+			//print("%d\n", event.key.keyCode);
 			m_server->SendKeyup(event.key.keyCode);
 			break;
 		case event::MouseButtonDown:

@@ -39,7 +39,6 @@ namespace sandbox
 		
 		Server::GetCurrent()->RegisterMod(*value);
   
-		print("%s\n", *value);
 		return Undefined();
 	}
 	Handle<Value> Binding_exec(const Arguments& args)
@@ -63,7 +62,6 @@ namespace sandbox
 		m_plane->Place(c_entity);
 		m_camera->SetFocus(c_entity);
 
-		print("%f\n",m_view->GetCamera()->GetFocus()->GetPosition()[0]);
 	}
 
 	void Server::PlaceEntity(game2d::ZoneEntity *c_entity) {

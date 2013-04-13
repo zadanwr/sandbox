@@ -25,6 +25,12 @@ function EntitP(pos,sz,obj) {
 function Vector2(first,last) {
 	this.f = first;
 	this.l = last;
+	this.normalize = function() {
+		var c = Math.sqrt(this.f*this.f+this.l*this.l);
+		if(c == 0) return;
+		this.f/=c;
+		this.l/=c;
+	}
 }
 
 function velocity(x,y) {
@@ -47,7 +53,6 @@ function Entity(x,y,w,h) {
 		return self;
 	}
 	this.onCollide = function(who) {
-		print("Yolo\n");
 	}
 	this.onEvent = function(event,extra) {
 		switch(event) {
