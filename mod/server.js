@@ -80,7 +80,6 @@ function Server() {
 			}
 		}
 		Entities[0].entity.setAsFocus();
-
 	}
 	*/
 	this.onEvent = function(event,extra) {
