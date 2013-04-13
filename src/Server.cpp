@@ -28,7 +28,6 @@ namespace sandbox
 		}
 		return Undefined();
 	}
-
 	Handle<Value> Binding_registerMod(const Arguments& args)
 	{
 		if(args.Length() < 1)
@@ -70,17 +69,18 @@ namespace sandbox
 		ms_current = this;
 	}
 
-	void Server::RegisterMod(char *ModObject) {
+	void Server::RegisterMod(const char *ModObject) {
 
-		m_server = Local<Object>::Cast(m_context->Global()->Get(String::New(ModObject)));
+		//m_server = Handle<Object>::Cast(m_context->Global()->Get(String::New(ModObject)));
+		m_serverName = string(ModObject);
+
+		//How to call onCreate:
 		/*
-
-		How to call onCreate:
-
-		Handle<Function> oCTest = Handle<Function>::Cast(m_server->Get(String::New("onCreate")));
-		v8::Handle<v8::Value> args[] = {};
-  		oCTest->Call(oCTest,0,args);
+		Handle<Function> oCTest = Handle<Function>::Cast(m_server->Get(String::New("onEvent")));
+		v8::Handle<v8::Value> args[] = {Integer::New(49)};
+  		oCTest->Call(oCTest,1,args);
   		*/
+  		
 	}
 
 
@@ -134,4 +134,17 @@ namespace sandbox
 			print("%s\n", *ascii);
 */		return true;
 	}
+
+	bool Server::SendKeydown(int key) {
+		print("%s\n",m_serverName.c_str());
+		Context::Scope contextScope(m_context);
+		HandleScope handleScope;
+
+		Handle<Object> t_server = Handle<Object>::Cast(m_context->Global()->Get(String::New(m_serverName.c_str())));
+		Handle<Function> onEvent = Handle<Function>::Cast(t_server->Get(String::New("onEvent")));
+		v8::Handle<v8::Value> args[] = {Integer::New(0),Integer::New(key)};
+  		onEvent->Call(onEvent,2,args);
+  		return true;
+	} 
+
 }

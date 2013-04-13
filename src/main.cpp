@@ -73,6 +73,7 @@ public:
 		{
 		case event::KeyDown:
 			print("%d\n", event.key.keyCode);
+			m_server->SendKeydown(event.key.keyCode);
 			break;
 		}
 		return true;

@@ -3,6 +3,7 @@
 
 //- Javascript V8 -
 #include <v8.h>
+#include <string>
 
 namespace sandbox
 {
@@ -12,7 +13,7 @@ namespace sandbox
 
 		v8::HandleScope m_handleScope;
 		v8::Persistent<v8::Context> m_context;
-		v8::Handle<v8::Object> m_server;
+		std::string m_serverName;
 
 	public:
 		static Server *GetCurrent();
@@ -23,7 +24,8 @@ namespace sandbox
 		bool ExecuteFile(const char *file);
 		bool ExecuteString(const char *str);
 		v8::Persistent<v8::Context> GetContext() const;
-		void RegisterMod(char *ModObject);
+		void RegisterMod(const char *ModObject);
+		bool SendKeydown(int key);
 	};
 }
 

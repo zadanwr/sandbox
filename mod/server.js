@@ -8,10 +8,11 @@ function Server() {
 		Entities.push(new Vector2(200,200),new Vector2(20,20),new Player());
 	}
 
-	this.onEvent = function(event) {
-		switch(event.type) {
+	this.onEvent = function(event,extra) {
+		print("Key " + extra + "\n");
+		switch(event) {
 			case EVENT.KEYDOWN:
-				if(event.code = '`') print("Open console\n");
+				if(extra == 49) print("Open console\n");
 				break;
 		}
 	}
@@ -19,8 +20,9 @@ function Server() {
 
 
 function Player() {
-	print("Player created");
+	print("Player created\n");
 }
 
 var serv = new Server();
 registerMod("serv");
+serv.onCreate();
