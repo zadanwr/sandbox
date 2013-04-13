@@ -26,6 +26,7 @@ namespace sandbox
 		v8::Persistent<v8::Context> GetContext() const;
 		void RegisterMod(const char *ModObject);
 		bool SendKeydown(int key);
+		bool SendKeyup(int key);
 	};
 }
 

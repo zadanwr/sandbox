@@ -7,6 +7,10 @@ var EVENT = {
 	MESSAGE:5
 }
 
+var MESSAGE = {
+	HEALTH:0	
+}
+
 var Entities = new Array();
 
 

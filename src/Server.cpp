@@ -136,7 +136,6 @@ namespace sandbox
 	}
 
 	bool Server::SendKeydown(int key) {
-		print("%s\n",m_serverName.c_str());
 		Context::Scope contextScope(m_context);
 		HandleScope handleScope;
 
@@ -146,5 +145,16 @@ namespace sandbox
   		onEvent->Call(onEvent,2,args);
   		return true;
 	} 
+	bool Server::SendKeyup(int key) {
+		Context::Scope contextScope(m_context);
+		HandleScope handleScope;
+
+		Handle<Object> t_server = Handle<Object>::Cast(m_context->Global()->Get(String::New(m_serverName.c_str())));
+		Handle<Function> onEvent = Handle<Function>::Cast(t_server->Get(String::New("onEvent")));
+		v8::Handle<v8::Value> args[] = {Integer::New(1),Integer::New(key)};
+  		onEvent->Call(onEvent,2,args);
+  		return true;
+	} 
+
 
 }
