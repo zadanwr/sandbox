@@ -13,6 +13,17 @@ function Server() {
 	}
 
 	this.onCreate = function() {
+		for(i = 0; i < world.length;i++) {
+			for(j = 0; j < world[i].length;j++) {
+				if(world[i][j] == 1) Entities.push(new Wall(64*i,64*j,64,64));
+				if(world[i][j] == 2) {
+					Entities.push(new Player(64*i,64*j));
+					Entities[Entities.length-1].entity.setAsFocus();
+					}
+			}
+		}
+
+		/*
 		Entities.push(new Player());
 
 
@@ -71,7 +82,7 @@ function Server() {
 		Entities[0].entity.setAsFocus();
 
 	}
-
+	*/
 	this.onEvent = function(event,extra) {
 		switch(event) {
 			case EVENT.STEP:
@@ -124,7 +135,7 @@ function Server() {
 }
 
 
-function Player() {
+function Player(x,y) {
 	var self = this;
 	this.vX = 0.0;
 	this.vY = 0.0;
@@ -132,7 +143,7 @@ function Player() {
 	this.type = "player";
 
 	print(Entities.indexOf(this) + "\n");
-	this.entity = new entity(100,1568,32,32);
+	this.entity = new entity(x,y,32,32);
 	this.entity.parent = this;
 	this.entity.onCollide = function(who) {
 		self.onCollide(who);
