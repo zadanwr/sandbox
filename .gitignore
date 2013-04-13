@@ -11,3 +11,30 @@
 *.lai
 *.la
 *.a
+
+# Generated CMake files
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CMakeFiles
+
+# Sublime Text 2 Project files
+*.sublime-*
+
+# Visual Studio Project Files
+*.vcproj*
+*.vcxproj*
+*.sln
+*.sdf
+*.suo
+*.opensdf
+*/Release
+*/Debug
+*/MinSizeRel
+*/RelWithDebInfo
+Win32
+ipch
+*.dir
+
+# Compiled files
+bin
