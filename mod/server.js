@@ -1,6 +1,7 @@
 print("Welcome to deathmatch mod!\n");
 exec("../scripts/global.js");
 exec("../mod/World.js");
+
 wallimage = new image("../mod/door.png");
 wallsprite = new sprite(wallimage);
 wallsprite.addAnimation(0,0,1,1/3,0,0,new Array(1),1);
