@@ -7,6 +7,9 @@
 //- Javascript V8 -
 #include <v8.h>
 
+#define _WIDTH 1100
+#define _HEIGHT 700
+
 #include <CE/Base.h>
 #include <CE/Canvas.h>
 #include <CE/Thread.h>
