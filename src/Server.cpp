@@ -23,16 +23,22 @@ namespace sandbox
 	{
 		m_context.Dispose();
 	}
+	bool Server::InitNativeBindings()
+	{
+		return true;
+	}
 	bool Server::ExecuteFile(const char *file)
 	{
 		Context::Scope contextScope(m_context);
 		HandleScope handleScope;
-		ifstream inFile(file);
+		ifstream inFile(file, ios::in | ios::binary | ios::ate);
 		if(!inFile.is_open())
 			return false;
 
 		int size = (int)inFile.tellg();
-		char *fileContents = new char[size];
+		char *fileContents = new char[size + 1];
+		for(int a = 0; a <= size; a++)
+			fileContents[a] = 0;
 		inFile.seekg(0, ios::beg);
 		inFile.read(fileContents, size);
 		inFile.close();
