@@ -23,6 +23,8 @@ namespace sandbox
 		static Entity *Create(ce::Vector2<float> position, ce::Vector2<float> extent);
 		static v8::Handle<v8::Value> Binding_entity(const v8::Arguments& args);
 		static v8::Handle<v8::Value> Binding_getPosition(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_getExtent(const v8::Arguments& args);
+		static v8::Handle<v8::Value> Binding_getVelocity(const v8::Arguments& args);
 
 		~Entity();
 	};

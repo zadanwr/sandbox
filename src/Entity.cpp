@@ -17,6 +17,8 @@ namespace sandbox
 			ms_template = ObjectTemplate::New();
 			ms_template->SetInternalFieldCount(1);
 			ms_template->Set(String::New("getPosition"), FunctionTemplate::New(Binding_getPosition));
+			ms_template->Set(String::New("getExtent"), FunctionTemplate::New(Binding_getExtent));
+			ms_template->Set(String::New("getVelocity"), FunctionTemplate::New(Binding_getVelocity));
 			ms_templateInitialized = true;
 		}
 
@@ -55,6 +57,34 @@ namespace sandbox
 		Handle<Array> result = Array::New();
 		for(int a = 0; a < 2; a++)
 			result->Set(Integer::New(a), Number::New(position[a]));
+		return result;
+	}
+	Handle<Value> Entity::Binding_getExtent(const Arguments& args)
+	{
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		ce::Vector2<float> extent = static_cast<Entity *>(ptr)->GetExtent();
+
+		Handle<Array> result = Array::New();
+		for(int a = 0; a < 2; a++)
+			result->Set(Integer::New(a), Number::New(extent[a]));
+		return result;
+	}
+	Handle<Value> Entity::Binding_getVelocity(const Arguments& args)
+	{
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		ce::Vector2<float> velocity = static_cast<Entity *>(ptr)->GetVelocity();
+
+		Handle<Array> result = Array::New();
+		for(int a = 0; a < 2; a++)
+			result->Set(Integer::New(a), Number::New(velocity[a]));
 		return result;
 	}
 
