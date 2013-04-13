@@ -8,7 +8,9 @@
 
 //- Sandbox -
 #include <Sandbox/Entity.h>
+#include <Sandbox/Image.h>
 #include <Sandbox/Server.h>
+#include <Sandbox/Sprite.h>
 
 using namespace ce;
 using namespace v8;
@@ -97,6 +99,8 @@ namespace sandbox
 
 		//- Global Classes -
 		global->Set(String::New("entity"), FunctionTemplate::New(Entity::Binding_entity));
+		global->Set(String::New("image"), FunctionTemplate::New(Image::Binding_image));
+		global->Set(String::New("sprite"), FunctionTemplate::New(Sprite::Binding_sprite));
 
 		m_context = Context::New(NULL, global);
 
