@@ -5,9 +5,15 @@ project(sandbox)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set(INC
+	${INC_DIR}/Sandbox/Server.h
+)
 
 set(SRC
 	${SRC_DIR}/main.cpp
+	${SRC_DIR}/Server.cpp
 )
 
 set(INCLUDE
@@ -15,7 +21,7 @@ set(INCLUDE
 	${PROJECT_SOURCE_DIR}/../ce/modules/ce_frontend/include
 	${PROJECT_SOURCE_DIR}/../ce/modules/ce_game2d/include
 	${PROJECT_SOURCE_DIR}/../ce/modules/ce_ui/include
-	${PROJECT_SOURCE_DIR}/include
+	${INC_DIR}
 )
 
 set(LIB "")
@@ -64,6 +70,6 @@ set(INCLUDE ${INCLUDE}
 include_directories(${INCLUDE})
 
 set(NAME "sandbox")
-add_executable(${NAME} ${SRC})
+add_executable(${NAME} ${SRC} ${INC})
 set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 target_link_libraries(${NAME} ${LIB})
