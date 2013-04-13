@@ -8,24 +8,18 @@ using namespace v8;
 
 namespace sandbox
 {
-	bool Entity::ms_templateInitialized = false;
-	Handle<ObjectTemplate> Entity::ms_template;
 	Entity *Entity::Create(ce::Vector2<float> position, ce::Vector2<float> extent)
 	{
-		if(!ms_templateInitialized)
-		{
-			ms_template = ObjectTemplate::New();
-			ms_template->SetInternalFieldCount(1);
-			ms_template->Set(String::New("getPosition"), FunctionTemplate::New(Binding_getPosition));
-			ms_template->Set(String::New("getExtent"), FunctionTemplate::New(Binding_getExtent));
-			ms_template->Set(String::New("getVelocity"), FunctionTemplate::New(Binding_getVelocity));
-			ms_templateInitialized = true;
-		}
-
+		Handle<ObjectTemplate> objectTemplate = ObjectTemplate::New();
+		objectTemplate->SetInternalFieldCount(1);
+		objectTemplate->Set(String::New("getPosition"), FunctionTemplate::New(Binding_getPosition));
+		objectTemplate->Set(String::New("getExtent"), FunctionTemplate::New(Binding_getExtent));
+		objectTemplate->Set(String::New("getVelocity"), FunctionTemplate::New(Binding_getVelocity));
+		
 		HandleScope handleScope;
 
 		Entity *entity = new Entity(position, extent);
-		Local<Object> instance = ms_template->NewInstance();
+		Local<Object> instance = objectTemplate->NewInstance();
 		instance->SetInternalField(0, External::New(entity));
 		entity->m_instance = instance;
 
