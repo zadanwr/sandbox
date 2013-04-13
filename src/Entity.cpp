@@ -15,6 +15,9 @@ namespace sandbox
 		objectTemplate->Set(String::New("getPosition"), FunctionTemplate::New(Binding_getPosition));
 		objectTemplate->Set(String::New("getExtent"), FunctionTemplate::New(Binding_getExtent));
 		objectTemplate->Set(String::New("getVelocity"), FunctionTemplate::New(Binding_getVelocity));
+		objectTemplate->Set(String::New("setPosition"), FunctionTemplate::New(Binding_setPosition));
+		objectTemplate->Set(String::New("setExtent"), FunctionTemplate::New(Binding_setExtent));
+		objectTemplate->Set(String::New("setVelocity"), FunctionTemplate::New(Binding_setVelocity));
 		
 		HandleScope handleScope;
 
@@ -80,6 +83,48 @@ namespace sandbox
 		for(int a = 0; a < 2; a++)
 			result->Set(Integer::New(a), Number::New(velocity[a]));
 		return result;
+	}
+	Handle<Value> Entity::Binding_setPosition(const Arguments& args)
+	{
+		if(args.Length() < 2)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		static_cast<Entity *>(ptr)->SetPosition(ce::Vector2<float>((float)args[0]->NumberValue(), (float)args[1]->NumberValue()));
+
+		return Undefined();
+	}
+	Handle<Value> Entity::Binding_setExtent(const Arguments& args)
+	{
+		if(args.Length() < 2)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		static_cast<Entity *>(ptr)->SetExtent(ce::Vector2<float>((float)args[0]->NumberValue(), (float)args[1]->NumberValue()));
+
+		return Undefined();
+	}
+	Handle<Value> Entity::Binding_setVelocity(const Arguments& args)
+	{
+		if(args.Length() < 2)
+			return Undefined();
+
+		HandleScope handleScope;
+
+		Local<Object> self = args.This();
+		Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+		void* ptr = wrap->Value();
+		static_cast<Entity *>(ptr)->SetVelocity(ce::Vector2<float>((float)args[0]->NumberValue(), (float)args[1]->NumberValue()));
+
+		return Undefined();
 	}
 
 	Entity::Entity(ce::Vector2<float> position, ce::Vector2<float> extent) : ce::game2d::ZoneEntity(position, extent)
