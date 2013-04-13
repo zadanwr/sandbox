@@ -242,12 +242,18 @@ namespace sandbox
 	{
 		if(m_sprite)
 		{
+			ce::Vector2<float> position = GetPosition();
 			ce::Vector2<float> extent = GetExtent();
+			glEnable(GL_TEXTURE_2D);
 			glPushMatrix();
+				glTranslatef(position[0], position[1], 0.f);
 				glScalef(extent[0], extent[1], 1.f);
-				float t = (ce::App::GetCurrent()->GetRunTimeMS() - m_animationStart) / 1000.f;
+				float t = ((float)(ce::App::GetCurrent()->GetRunTimeMS() - m_animationStart)) / 1000.f;
+			//	ce::print("%d\n",m_animationStart);
 				m_sprite->GetSource()->Draw(m_animation, t);
+				glColor4ub(255, 255, 255, 255);
 			glPopMatrix();
+			glDisable(GL_TEXTURE_2D);
 		}
 		else
 			ce::game2d::ZoneEntity::DoRender();

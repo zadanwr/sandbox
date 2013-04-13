@@ -16,6 +16,7 @@ namespace sandbox
 
 		Handle<ObjectTemplate> objectTemplate = ObjectTemplate::New();
 		objectTemplate->SetInternalFieldCount(1);
+		objectTemplate->Set(String::New("addAnimation"), FunctionTemplate::New(Binding_addAnimation));
 
 		HandleScope handleScope;
 
